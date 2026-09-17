@@ -1,4 +1,4 @@
-'use strict';
+console.log("guli guli")
 /* ================================================================
    AR CRAFT — script.js
    A blocky, Minecraft-style AR building game.
@@ -11,7 +11,7 @@
 /* ---------------------------------------------------------------
    0. CONFIG & GLOBAL STATE
    --------------------------------------------------------------- */
-const GRID = 0.35;            // metres per block
+const GRID = 0.035;            // metres per block
 const EYE_HEIGHT = 1.3;       // assumed phone height above the floor (fallback mode)
 const REACH = 6;              // max metres the player can aim/build at
 
@@ -34,6 +34,7 @@ const canvas = document.getElementById('three-canvas');
 
 const startScreen = document.getElementById('start-screen');
 const startBtn = document.getElementById('start-btn');
+startBtn.disabled = false;
 const supportNote = document.getElementById('support-note');
 
 const placementScreen = document.getElementById('placement-screen');
@@ -947,6 +948,7 @@ function setPlaceWorldButtonEnabled(enabled) {
 }
 
 async function startXRSession() {
+  videoEl.style.display = 'none';
   renderer.xr.enabled = true;
   renderer.xr.setReferenceSpaceType('local');
   const session = await navigator.xr.requestSession('immersive-ar', {
@@ -976,6 +978,7 @@ async function startXRSession() {
 }
 
 function onXRSessionEnd() {
+  videoEl.style.display = 'block';
   xrSession = null; xrHitTestSource = null; xrRefSpace = null; lastHitPose = null;
   renderer.xr.enabled = false;
   worldPlaced = false;
