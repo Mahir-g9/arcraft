@@ -400,12 +400,12 @@ const reticle = new THREE.Mesh(
 reticle.visible = false;
 scene.add(reticle);
 
-// Black 3D "aimed at" outline — an inverted, slightly larger black hull
-// around the targeted cell, so it reads as a real edge from any angle.
-const aimOutline = new THREE.Mesh(
-  new THREE.BoxGeometry(GRID * 1.08, GRID * 1.08, GRID * 1.08),
-  new THREE.MeshBasicMaterial({ color: 0x000000, side: THREE.BackSide })
+// Black 3D "aimed at" outline — transparent block with black edges
+const aimOutline = new THREE.LineSegments(
+  new THREE.EdgesGeometry(new THREE.BoxGeometry(GRID * 1.02, GRID * 1.02, GRID * 1.02)),
+  new THREE.LineBasicMaterial({ color: 0x000000, linewidth: 2 })
 );
+
 aimOutline.visible = false;
 worldRoot.add(aimOutline);
 
