@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no, viewport-fit=cover" />
+<meta name="theme-color" content="#1a1410" />
+<title>AR Craft — Blocky AR Builder</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Jersey+10&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- Live camera feed (used directly as the AR background in fallback mode) -->
+  <video id="camera-feed" autoplay playsinline muted></video>
+
+  <!-- Three.js render target -->
+  <canvas id="three-canvas"></canvas>
+
+  <!-- ================= START SCREEN ================= -->
+  <div id="start-screen" class="overlay-screen">
+    <div class="panel start-card">
+      <div class="game-title">
+        <span class="title-block">AR</span><span class="title-block accent">CRAFT</span>
+      </div>
+      <p class="subtitle">Place real 3D blocks on the world around you.</p>
+      <button id="start-btn" class="chunky-btn big-btn">▶ START AR</button>
+      <p id="support-note" class="note">Checking your device for AR support…</p>
+    </div>
+  </div>
+
+  <!-- ================= GROUND PLACEMENT SCREEN ================= -->
+  <div id="placement-screen" class="overlay-screen hidden">
+    <div class="scan-reticle-hint">
+      <div class="scan-ring"></div>
+    </div>
+    <div class="panel placement-card">
+      <p id="placement-text">Slowly move your device to scan the floor…</p>
+      <button id="place-world-btn" class="chunky-btn big-btn hidden">⛏ PLACE WORLD HERE</button>
+    </div>
+  </div>
+
+  <!-- ================= ERROR SCREEN ================= -->
+  <div id="error-screen" class="overlay-screen hidden">
+    <div class="panel start-card">
+      <div class="game-title small"><span class="title-block">AR</span><span class="title-block accent">CRAFT</span></div>
+      <h2>AR unavailable</h2>
+      <p id="error-text" class="note"></p>
+      <button id="error-retry-btn" class="chunky-btn big-btn">↻ TRY AGAIN</button>
+    </div>
+  </div>
+
+  <!-- ================= GAME HUD ================= -->
+  <div id="hud" class="hidden">
+
+    <!-- Center crosshair -->
+    <div id="crosshair" aria-hidden="true">
+      <div class="crosshair-h"></div>
+      <div class="crosshair-v"></div>
+    </div>
+
+    <!-- Top bar -->
+    <div id="top-bar">
+      <button id="camera-switch-btn" class="icon-btn" title="Switch camera">⟳</button>
+      <div id="selected-indicator">
+        <span id="selected-block-swatch"></span>
+        <span id="selected-block-name">Grass Block</span>
+      </div>
+      <button id="help-btn" class="icon-btn" title="Help">?</button>
+    </div>
+
+    <div id="mode-banner"></div>
+
+    <!-- Mining progress ring (hidden unless mining) -->
+    <div id="toast"></div>
+
+    <!-- Action buttons -->
+    <div id="action-buttons">
+      <button id="mine-btn" class="chunky-btn action-btn mine-btn">
+        <span class="action-icon">⛏</span><span>MINE</span>
+      </button>
+      <button id="place-btn" class="chunky-btn action-btn place-btn">
+        <span class="action-icon">▦</span><span>PLACE</span>
+      </button>
+    </div>
+
+    <!-- Hotbar -->
+    <div id="hotbar-wrap">
+      <div id="hotbar">
+        <button id="more-blocks-btn" class="hotbar-slot more-btn" title="More blocks">&bull;&bull;&bull;</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= INVENTORY / MORE BLOCKS MODAL ================= -->
+  <div id="inventory-modal" class="modal hidden">
+    <div class="panel modal-content">
+      <div class="modal-header">
+        <h2>Blocks &amp; Items</h2>
+        <button id="close-inventory-btn" class="icon-btn">✕</button>
+      </div>
+      <div id="inventory-grid"></div>
+    </div>
+  </div>
+
+  <!-- ================= HELP MODAL ================= -->
+  <div id="help-modal" class="modal hidden">
+    <div class="panel modal-content">
+      <div class="modal-header">
+        <h2>How to play</h2>
+        <button id="close-help-btn" class="icon-btn">✕</button>
+      </div>
+      <div id="help-body">
+        <ul>
+          <li><strong>Aim</strong> with the crosshair in the center of the screen by pointing your device.</li>
+          <li><strong>PLACE</strong> puts the selected block against the surface you're aiming at.</li>
+          <li><strong>MINE</strong> removes the block you're aiming at.</li>
+          <li>Pick a block from the <strong>hotbar</strong>, or tap <strong>•••</strong> for the full inventory.</li>
+          <li>Build a standing rectangle of <strong>Obsidian</strong> (empty in the middle), select <strong>Flint &amp; Steel</strong>, aim at the frame and press PLACE to ignite a <strong>Nether Portal</strong>.</li>
+          <li>Tap the <strong>⟳</strong> button to switch between front and rear cameras (fallback mode only).</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Three.js core (UMD build) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/0.160.0/three.min.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>
+  
